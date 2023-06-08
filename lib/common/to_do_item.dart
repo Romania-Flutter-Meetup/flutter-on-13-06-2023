@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import '../blocs/bloc_exports.dart';
@@ -47,7 +48,29 @@ class _ToDoItemState extends State<ToDoItem> {
           ),
           IconButton(
               onPressed: () {
-                context.read<TodoBloc>().add(DeleteTodo(todo: widget.toDo));
+                showModal(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Are you sure'),
+                        content: const Text('Are you sure you want to delete?'),
+                        actions: <Widget>[
+                          TextButton(
+                              onPressed: () {
+                                context
+                                    .read<TodoBloc>()
+                                    .add(DeleteTodo(todo: widget.toDo));
+                                    Navigator.of(context).pop();
+                              },
+                              child: const Text('Yes')),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('No'))
+                        ],
+                      );
+                    });
               },
               icon: const Icon(
                 Icons.delete,

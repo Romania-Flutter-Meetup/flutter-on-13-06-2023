@@ -55,37 +55,39 @@ class LandingPage extends StatelessWidget {
               icon: const Icon(Icons.clear_all))
         ],
       ),
-      body: Column(children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            UiPercent(
-                widget: Lottie.asset(Assets.INTRO_ANIMATION),
-                widthPercent: 0.6,
-                heightPercent: 0.3)
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            BlocBuilder<TodoBloc, TodoState>(
-              builder: (BuildContext context, TodoState state) {
-                return state.allToDos.isNotEmpty
-                    ? UiPercent(
-                        widget: ListView(
-                            children: state.allToDos
-                                .map((ToDo e) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ToDoItem(toDo: e),
-                                    ))
-                                .toList()),
-                        widthPercent: 0.9,
-                        heightPercent: 0.3)
-                    : _buildNoItemsFound(context);
-              },
-            )
-          ],
-        )
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              UiPercent(
+                  widget: Lottie.asset(Assets.INTRO_ANIMATION),
+                  widthPercent: 0.6,
+                  heightPercent: 0.3)
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              BlocBuilder<TodoBloc, TodoState>(
+                builder: (BuildContext context, TodoState state) {
+                  return state.allToDos.isNotEmpty
+                      ? UiPercent(
+                          widget: ListView(
+                              children: state.allToDos
+                                  .map((ToDo e) => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ToDoItem(toDo: e),
+                                      ))
+                                  .toList()),
+                          widthPercent: 0.9,
+                          heightPercent: 0.3)
+                      : _buildNoItemsFound(context);
+                },
+              )
+            ],
+          )
+        ]),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
