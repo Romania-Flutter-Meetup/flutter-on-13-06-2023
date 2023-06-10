@@ -2,8 +2,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
+import '../aggregate/todo.dart';
 import '../blocs/bloc_exports.dart';
-import '../models/todo.dart';
 
 class ToDoItem extends StatefulWidget {
   const ToDoItem({

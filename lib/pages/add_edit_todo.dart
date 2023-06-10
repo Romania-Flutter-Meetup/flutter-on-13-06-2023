@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
+import '../aggregate/todo.dart';
 import '../blocs/bloc_exports.dart';
 import '../common/todo_appbar.dart';
-import '../models/todo.dart';
 import '../services/notification_service.dart';
 import '../services/uuid_generator.dart';
 import '../theme/app_theme.dart';

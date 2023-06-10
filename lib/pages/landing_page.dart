@@ -2,12 +2,12 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../aggregate/todo.dart';
 import '../assets/assets.dart';
 import '../blocs/bloc_exports.dart';
 import '../common/to_do_item.dart';
 import '../common/todo_appbar.dart';
 import '../common/ui_percent.dart';
-import '../models/todo.dart';
 import 'add_edit_todo.dart';
 import 'settings_page.dart';
 
