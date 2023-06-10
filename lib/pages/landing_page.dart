@@ -22,71 +22,13 @@ class LandingPage extends StatelessWidget {
         title: 'Todos',
         isLandingPage: true,
         actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(SettingsPage.routeName);
-              },
-              icon: const Icon(Icons.settings)),
-          IconButton(
-              onPressed: () {
-                showModal(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Clear all'),
-                        content:
-                            const Text('Are you sure you want to clear all?'),
-                        actions: <Widget>[
-                          TextButton(
-                              onPressed: () {
-                                context.read<TodoBloc>().add(DeleteAllTodo());
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Yes')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('No'))
-                        ],
-                      );
-                    });
-              },
-              icon: const Icon(Icons.clear_all))
+          _buildSettingsButton(context),
+          _buildClearAll(context)
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              UiPercent(
-                  widget: Lottie.asset(Assets.INTRO_ANIMATION),
-                  widthPercent: 0.6,
-                  heightPercent: 0.3)
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              BlocBuilder<TodoBloc, TodoState>(
-                builder: (BuildContext context, TodoState state) {
-                  return state.allToDos.isNotEmpty
-                      ? UiPercent(
-                          widget: ListView(
-                              children: state.allToDos
-                                  .map((ToDo e) => Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ToDoItem(toDo: e),
-                                      ))
-                                  .toList()),
-                          widthPercent: 0.9,
-                          heightPercent: 0.3)
-                      : _buildNoItemsFound(context);
-                },
-              )
-            ],
-          )
-        ]),
+        child: Column(
+            children: <Widget>[_buildIntroAnimation(), _buildToDoList()]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -96,6 +38,77 @@ class LandingPage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Column _buildToDoList() {
+    return Column(
+      children: <Widget>[
+        BlocBuilder<TodoBloc, TodoState>(
+          builder: (BuildContext context, TodoState state) {
+            return state.allToDos.isNotEmpty
+                ? UiPercent(
+                    widget: ListView(
+                        children: state.allToDos
+                            .map((ToDo e) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ToDoItem(toDo: e),
+                                ))
+                            .toList()),
+                    widthPercent: 0.9,
+                    heightPercent: 0.3)
+                : _buildNoItemsFound(context);
+          },
+        )
+      ],
+    );
+  }
+
+  Row _buildIntroAnimation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        UiPercent(
+            widget: Lottie.asset(Assets.INTRO_ANIMATION),
+            widthPercent: 0.6,
+            heightPercent: 0.3)
+      ],
+    );
+  }
+
+  IconButton _buildSettingsButton(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(SettingsPage.routeName);
+        },
+        icon: const Icon(Icons.settings));
+  }
+
+  IconButton _buildClearAll(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          showModal(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Clear all'),
+                  content: const Text('Are you sure you want to clear all?'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          context.read<TodoBloc>().add(DeleteAllTodo());
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Yes')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('No'))
+                  ],
+                );
+              });
+        },
+        icon: const Icon(Icons.clear_all));
   }
 
   Column _buildNoItemsFound(BuildContext context) {

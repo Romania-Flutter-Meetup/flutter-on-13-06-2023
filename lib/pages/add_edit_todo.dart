@@ -50,33 +50,34 @@ class _AddOrEditTodoState extends State<AddOrEditTodo> {
         _buildToDoField(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-                onPressed: () {
-                  if (todoText.text.isEmpty) {
-                    NotificationService.showErrorNotification(
-                        'Field is required', context);
-                  } else {
-                    widget.todo == null
-                        ? context.read<TodoBloc>().add(AddToDo(
-                            todo: ToDo(
-                                id: UuidGenerator.getId(),
-                                message: todoText.text,
-                                isDone: false)))
-                        : context.read<TodoBloc>().add(UpdateTodo(
-                            todo: ToDo(
-                                id: widget.todo!.id,
-                                message: todoText.text,
-                                isDone: widget.todo!.isDone)));
-                    NotificationService.showSuccessNotification(
-                        'Good job', context);
-                  }
-                },
-                child: const Text('Save'))
-          ],
+          children: <Widget>[_buildAddOrEditButton(context)],
         )
       ]),
     );
+  }
+
+  ElevatedButton _buildAddOrEditButton(BuildContext context) {
+    return ElevatedButton(
+        onPressed: () {
+          if (todoText.text.isEmpty) {
+            NotificationService.showErrorNotification(
+                'Field is required', context);
+          } else {
+            widget.todo == null
+                ? context.read<TodoBloc>().add(AddToDo(
+                    todo: ToDo(
+                        id: UuidGenerator.getId(),
+                        message: todoText.text,
+                        isDone: false)))
+                : context.read<TodoBloc>().add(UpdateTodo(
+                    todo: ToDo(
+                        id: widget.todo!.id,
+                        message: todoText.text,
+                        isDone: widget.todo!.isDone)));
+            NotificationService.showSuccessNotification('Good job', context);
+          }
+        },
+        child: const Text('Save'));
   }
 
   Widget _buildToDoField() {
